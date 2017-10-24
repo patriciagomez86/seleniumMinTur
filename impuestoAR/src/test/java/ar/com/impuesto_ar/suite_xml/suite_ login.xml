@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Validaciones en el acceso a la aplicacion" parallel="false" preserve-order="true" >
+
+	<parameter name="url_ambiente"             value="http://100.1.1.59:8080"/>
+	<parameter name="browser"                  value="chrome"/>
+	
+	<!--  Datos para generar el PDF del reporte de la ejecucion de la suite de pruebas	
+	<parameter name="pdfngreport-properties" value="C:/selenium/suiteSociosVips/ABM Socios Vip - Con Permisos.properties" />	 
+	<listeners>
+	   		 <listener class-name="com.uttesh.pdfngreport.PDFReportListener" />
+	</listeners>
+	-->
+	
+	<!-- Path donde se van a guardar las capturas de pantallas en caso de fallar el test -->
+	<parameter name="path_ScreenShotOnFailure"		value="C://selenium//impuestoAR//SCREENSHOTS"/>
+	
+	
+	<!-- 
+		CONFIGURACION SELENIUM GRID 
+		Se debe ejecutar el siguiente comando en la pc HUB - donde se encuentra el proyecto selenium (eclipse)
+	 	Es necesario descargarse el archivo "selenium-server-standalone-2.53.1.jar", posicionarse en esa carpeta y ejecutar el comando
+		java -jar selenium-server-standalone-2.53.1.jar -role hub
+		
+		Se debe ejecutar este comando en cada pc nodo - No es necesario descargarse el proyecto en eclipse
+		Es necesario descargarse el archivo "selenium-server-standalone-2.53.1.jar", posicionarse en esa carpeta y ejecutar el comando
+		
+		java -Dwebdriver.chrome.driver=<path donde se encuentra el driver> -Dwebdriver.ie.driver=<path donde se encuentra el driver> -jar selenium-server-standalone-3.0.1.jar -role webdriver -hub http://<direccion ip del hub>:<puerto del hub>/grid/register -port <puerto del nodo>
+		ejemplo:	java -Dwebdriver.chrome.driver="C:\Users\pgomez\Downloads\chromedriver_win32\chromedriver.exe" -Dwebdriver.ie.driver="C:\IEDriverServer_Win32_2.53.1\IEDriverServer.exe" -jar selenium-server-standalone-2.53.1.jar -role webdriver -hub http://192.168.0.8:4444/grid/register -port 5555			
+	-->
+
+	
+	<parameter name="ipNodo"                  		value="http://192.168.0.153:5555/wd/hub"/>	
+
+
+	
+
+	<test name="Pruebas sobre la pagina de ingreso" parallel="false" preserve-order="true" >	
+		
+
+	<classes>
+		<class name="ar.com.impuesto_ar.testng.Test_Ingreso_ImpuestoAR">			
+
+			<parameter name="usrCorrecto"		value="admin"/>
+			<parameter name="passCorrecto"		value="12345"/>
+			
+			<parameter name="usrVacio"		value=""/>
+			<parameter name="passVacio"		value=""/>
+			<parameter name="msjValidacionDatoObligatorio"		value="El campo es requerido"/>
+			
+			<parameter name="usrSuperaLimite"		value="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456"/>
+			<parameter name="passSuperaLimite"		value="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456"/>
+			<parameter name="msjValidacionLongitudMaxima"		value="El campo debe tener un máximo de 255 caracteres de longitud"/>
+			
+			<parameter name="usrNoValido"		value="pepe"/>
+			<parameter name="passNoValido"		value="12345"/>
+			<parameter name="msjValidacionUsrNoValido"		    value="Usuario o contraseña incorrectos"/>
+			
+			
+	
+			<methods>			
+				<include name="login_con_datos_vacios"/>
+			    <include name="login_con_datos_supera_longitud"/>
+				<include name="login_con_datos_erroneos"/>
+				<include name="login_con_datos_correctos"/>	
+																			
+			</methods>												
+		</class>
+	</classes>	
+	</test>	
+		
+</suite><!-- Suite --> 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Validaciones en la navegacion del menu principal" parallel="false" preserve-order="true" >
+
+	<parameter name="url_ambiente"             value="http://100.1.1.59:8080"/>
+	<parameter name="browser"                  value="chrome"/>
+	
+	<parameter name="usr"		value="admin"/>
+	<parameter name="pass"		value="12345"/>
+	
+	<!--  Datos para generar el PDF del reporte de la ejecucion de la suite de pruebas	
+	<parameter name="pdfngreport-properties" value="C:/selenium/suiteSociosVips/ABM Socios Vip - Con Permisos.properties" />	 
+	<listeners>
+	   		 <listener class-name="com.uttesh.pdfngreport.PDFReportListener" />
+	</listeners>
+	-->
+	
+	<!-- Path donde se van a guardar las capturas de pantallas en caso de fallar el test -->
+	<parameter name="path_ScreenShotOnFailure"		value="C://selenium//impuestoAR//SCREENSHOTS"/>
+	
+	
+	<!-- 
+		CONFIGURACION SELENIUM GRID 
+		Se debe ejecutar el siguiente comando en la pc HUB - donde se encuentra el proyecto selenium (eclipse)
+	 	Es necesario descargarse el archivo "selenium-server-standalone-2.53.1.jar", posicionarse en esa carpeta y ejecutar el comando
+		java -jar selenium-server-standalone-2.53.1.jar -role hub
+		
+		Se debe ejecutar este comando en cada pc nodo - No es necesario descargarse el proyecto en eclipse
+		Es necesario descargarse el archivo "selenium-server-standalone-2.53.1.jar", posicionarse en esa carpeta y ejecutar el comando
+		
+		java -Dwebdriver.chrome.driver=<path donde se encuentra el driver> -Dwebdriver.ie.driver=<path donde se encuentra el driver> -jar selenium-server-standalone-3.0.1.jar -role webdriver -hub http://<direccion ip del hub>:<puerto del hub>/grid/register -port <puerto del nodo>
+		ejemplo:	java -Dwebdriver.chrome.driver="C:\Users\pgomez\Downloads\chromedriver_win32\chromedriver.exe" -Dwebdriver.ie.driver="C:\IEDriverServer_Win32_2.53.1\IEDriverServer.exe" -jar selenium-server-standalone-2.53.1.jar -role webdriver -hub http://100.1.3.20:4444/grid/register -port 5555			
+	-->
+
+	
+	<parameter name="ipNodo"                  		value="http://100.1.3.20:5555/wd/hub"/>	
+
+
+	
+
+	<test name="Pruebas sobre el menu principal" parallel="false" preserve-order="true" >	
+		
+
+	<classes>
+		<class name="ar.com.impuesto_ar.testng.Test_Navegacion_ImpuestoAR">	
+		
+			<parameter name="msjValidacionLogout"                  value="Su sesión ha finalizado correctamente"/>
+														
+	
+			<methods>				
+				<include name="irVR"/>
+				<include name="irGeneral"/>			
+				<include name="irSalir"/>
+				<include name="cancelarLogout"/>			
+				<include name="realizarLogout"/>										   																	
+			</methods>					
+										
+		</class>
+	</classes>	
+	</test>	
+		
+</suite><!-- Suite --> 
